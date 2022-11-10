@@ -34,6 +34,8 @@
 
 ### **_Getting Started_**
 
+#### **_Our presentation deck->_** [Potlucky Pitch](https://docs.google.com/presentation/d/1FlvDBdRKWPrBIGKzEBvmOvhYfcvaCnxqlFYTfZ9O2nY/edit?usp=sharing)
+
 ##### A Trello board was used to keep track of development progress and can be viewed [here](https://trello.com/b/Vi9hiVsb/project-3-potlucky).
 
 ##### The project itself was deployed and can be viewed [here](URL). **_\* not available yet_**
