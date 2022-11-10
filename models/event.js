@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.STRING,
-      userId: DataTypes.ARRAY,
+      userId: DataTypes.ARRAY(DataTypes.INTEGER),
       hostId: DataTypes.INTEGER
     },
     {
