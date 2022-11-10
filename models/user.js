@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
       User.hasMany(models.Event, { as: 'hosting', foreignKey: 'hostId' })
-      User.hasMany(models.Event, { as: 'attending', foreignKey: ['userId'] })
       User.belongsToMany(models.Event, {
         as: 'guests',
-        foreignKey: ['attending']
+        through: models.UserEventList,
+        foreignKey: 'userId'
       })
     }
   }
