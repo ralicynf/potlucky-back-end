@@ -1,4 +1,4 @@
-# **Potlucky (Backend)**
+# **Potlucky**
 
 ## **Date: 11/09/2022**
 
