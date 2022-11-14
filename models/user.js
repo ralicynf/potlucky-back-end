@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
-      User.hasMany(models.Event, { as: 'hosting', foreignKey: 'hostId' })
+      User.hasMany(models.Event, { foreignKey: 'hostId' }) // HOST who created the event
       User.belongsToMany(models.Event, {
-        as: 'attending',
+        as: 'attendees',
         through: models.UserEventList,
         foreignKey: 'userId'
-      })
+      }) // All the events this one user is attending
     }
   }
   User.init(
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       name: DataTypes.STRING,
       email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      passwordDigest: DataTypes.STRING,
       hosting: DataTypes.ARRAY(DataTypes.INTEGER),
       attending: DataTypes.ARRAY(DataTypes.INTEGER)
     },
