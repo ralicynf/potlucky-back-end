@@ -1,5 +1,4 @@
 const { Event } = require('../models')
-const { post } = require('../routes/UserRouter')
 
 // insert controller functions here
 
@@ -16,7 +15,7 @@ const createEvent = async (req, res) => {
 const getEventById = async (req, res) => {
   try {
     const { event_id } = req.params
-    const event = await Event.findById(event_id) //.populate('table') if you need the tables linked later
+    const event = await Event.findByPk(event_id) //.populate('table') if you need the tables linked later
     res.send(event)
   } catch (error) {
     throw error

@@ -14,7 +14,7 @@ const createItem = async (req, res) => {
 const getItemById = async (req, res) => {
   try {
     const { item_id } = req.params
-    const item = await item.findById(item_id) //.populate('table') if you need the tables linked later
+    const item = await item.findByPk(item_id) //.populate('table') if you need the tables linked later
     res.send(item)
   } catch (error) {
     throw error
