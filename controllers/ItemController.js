@@ -30,17 +30,17 @@ const getAllItems = async (req, res) => {
   }
 }
 
-const updateItem = async (req, res) => {
-  try {
-    const item = await Item.update(
-      { ...req.body },
-      { where: { id: req.params.item_id }, returning: true }
-    )
-    res.send(item)
-  } catch (error) {
-    throw error
-  }
-}
+// const updateItem = async (req, res) => {
+//   try {
+//     const item = await Item.update(
+//       { ...req.body },
+//       { where: { id: req.params.item_id }, returning: true }
+//     )
+//     res.send(item)
+//   } catch (error) {
+//     throw error
+//   }
+// }
 
 const deleteItem = async (req, res) => {
   try {
