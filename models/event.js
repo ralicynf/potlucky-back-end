@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Event.hasMany(models.Item, { as: 'items', foreignKey: 'eventId' })
       Event.hasMany(models.User, {
-        as: 'guests',
+        as: 'attending',
         foreignKey: 'userId'
       })
       Event.belongsTo(models.User, { as: 'hosting', foreignKey: 'hostId' })
       Event.belongsToMany(models.User, {
-        as: 'attending',
+        as: 'attendees',
         through: models.UserEventList,
         foreignKey: 'userId'
       })
@@ -27,8 +27,20 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.STRING,
-      userId: DataTypes.ARRAY(DataTypes.INTEGER),
-      hostId: DataTypes.INTEGER
+      userId: DataTypes.ARRAY({
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      }),
+      hostId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

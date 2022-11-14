@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
       User.hasMany(models.Event, { as: 'hosting', foreignKey: 'hostId' })
       User.belongsToMany(models.Event, {
-        as: 'guests',
+        as: 'attending',
         through: models.UserEventList,
         foreignKey: 'userId'
       })
