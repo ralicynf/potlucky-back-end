@@ -25,7 +25,6 @@ module.exports = {
       userId: {
         type: Sequelize.ARRAY({
           type: Sequelize.INTEGER,
-          allowNull: false,
           references: {
             model: 'users',
             key: 'id'
