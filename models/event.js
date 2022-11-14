@@ -9,26 +9,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Event.hasMany(models.Item, { as: 'items', foreignKey: 'eventId' })
-      Event.hasMany(models.User, {
-        as: 'guests',
-        foreignKey: 'userId'
-      })
-      Event.belongsTo(models.User, { as: 'hosting', foreignKey: 'hostId' })
+      Event.belongsTo(models.User, { as: 'hostedBy', foreignKey: 'hostId' }) // HOST who created event (one user to many events)
       Event.belongsToMany(models.User, {
-        as: 'attending',
+        as: 'attendees',
         through: models.UserEventList,
         foreignKey: 'userId'
-      })
+      }) //
     }
   }
   Event.init(
     {
-      eventName: DataTypes.STRING,
+      eventName: { type: DataTypes.STRING, allowNul: false },
       date: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.STRING,
-      userId: DataTypes.ARRAY(DataTypes.INTEGER),
-      hostId: DataTypes.INTEGER
+      userId: DataTypes.ARRAY({
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      }),
+      hostId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

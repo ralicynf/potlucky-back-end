@@ -9,20 +9,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
-      User.hasMany(models.Event, { as: 'hosting', foreignKey: 'hostId' })
+      User.hasMany(models.Event, { as: 'host', foreignKey: 'hostId' }) // HOST who created the event
       User.belongsToMany(models.Event, {
-        as: 'guests',
+        as: 'attendees',
         through: models.UserEventList,
         foreignKey: 'userId'
-      })
+      }) // All the events this one user is attending
     }
   }
   User.init(
     {
-      username: DataTypes.STRING,
+      username: { type: DataTypes.STRING, allowNull: false },
       name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true
+        }
+      },
+      passwordDigest: { type: DataTypes.STRING, allowNull: false },
       hosting: DataTypes.ARRAY(DataTypes.INTEGER),
       attending: DataTypes.ARRAY(DataTypes.INTEGER)
     },

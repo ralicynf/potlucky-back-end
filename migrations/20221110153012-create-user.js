@@ -10,16 +10,23 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       name: {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true
+        }
       },
-      password: {
-        type: Sequelize.STRING
+      passwordDigest: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       hosting: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)
