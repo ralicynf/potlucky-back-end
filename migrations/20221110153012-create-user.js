@@ -10,11 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       username: {
-        type: Sequelize.STRING
-      },
-      name: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING
       },
       email: {
         type: Sequelize.STRING,
@@ -25,7 +25,8 @@ module.exports = {
         }
       },
       passwordDigest: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       hosting: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)

@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-      passwordDigest: DataTypes.STRING,
+      passwordDigest: { type: DataTypes.STRING, allowNull: false },
       hosting: DataTypes.ARRAY(DataTypes.INTEGER),
       attending: DataTypes.ARRAY(DataTypes.INTEGER)
     },
