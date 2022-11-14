@@ -13,8 +13,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserEventList.init(
     {
-      userId: DataTypes.INTEGER,
-      eventId: DataTypes.INTEGER
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      eventId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'events',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

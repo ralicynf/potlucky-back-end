@@ -19,12 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Event.init(
     {
-      eventName: DataTypes.STRING,
+      eventName: { type: DataTypes.STRING, allowNul: false },
       date: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.STRING,
       userId: DataTypes.ARRAY({
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id'
@@ -32,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       }),
       hostId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id'

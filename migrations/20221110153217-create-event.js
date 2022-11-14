@@ -10,7 +10,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       eventName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       date: {
         type: Sequelize.STRING
@@ -24,6 +25,7 @@ module.exports = {
       userId: {
         type: Sequelize.ARRAY({
           type: Sequelize.INTEGER,
+          allowNull: false,
           references: {
             model: 'users',
             key: 'id'
@@ -32,6 +34,7 @@ module.exports = {
       },
       hostId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id'
