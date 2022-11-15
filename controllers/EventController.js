@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const { Event } = require('../models')
 
 // insert controller functions here
@@ -26,6 +27,26 @@ const getAllEvents = async (req, res) => {
   try {
     const events = await Event.findAll()
     res.send(events)
+  } catch (error) {
+    throw error
+  }
+}
+
+const getEventByGuestId = async (req, res) => {
+  try {
+    //need to filter out where they are also the host
+    const { user_id } = req.params
+    const events = await Event.findAll({
+      where: { userId: { [Op.in]: user_id } }
+    })
+    res.send(events)
+  } catch (error) {
+    throw error
+  }
+}
+
+const getEventByHostId = async (req, res) => {
+  try {
   } catch (error) {
     throw error
   }
@@ -60,6 +81,8 @@ module.exports = {
   createEvent,
   getEventById,
   getAllEvents,
+  getEventByGuestId,
+  getEventByHostId,
   updateEvent,
   deleteEvent
 }
