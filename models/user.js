@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
+      User.hasMany(models.Comment, { as: 'comments', foreignKey: 'userId' })
       User.hasMany(models.Event, { as: 'host', foreignKey: 'hostId' }) // HOST who created the event
       User.belongsToMany(models.Event, {
         as: 'attendees',
