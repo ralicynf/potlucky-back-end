@@ -6,12 +6,13 @@ const middleware = require('../middleware')
 Router.get('/', controller.getAllEvents)
 Router.post(
   '/',
-  middleware.stripToken,
-  middleware.verifyToken,
+  // middleware.stripToken,
+  // middleware.verifyToken,
   controller.createEvent
 )
 Router.get('/:event_id', controller.getEventById)
 Router.get('/user/:user_id', controller.getEventByGuestId)
+Router.get('/host/:host_id', controller.getEventByHostId)
 Router.put(
   '/:event_id',
   middleware.stripToken,
