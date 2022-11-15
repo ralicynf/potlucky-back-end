@@ -37,7 +37,10 @@ const getEventByGuestId = async (req, res) => {
     //need to filter out where they are also the host
     const user_id = req.params.user_id
     const events = await Event.findAll({
-      where: { userId: { [Op.contains]: [user_id] } }
+      where: {
+        userId: { [Op.contains]: [user_id] },
+        hostId: { [Op.not]: user_id }
+      }
     })
     res.send(events)
   } catch (error) {
