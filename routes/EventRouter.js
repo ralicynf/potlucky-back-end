@@ -11,6 +11,7 @@ Router.post(
   controller.createEvent
 )
 Router.get('/:event_id', controller.getEventById)
+Router.get('/user/:user_id', controller.getEventByGuestId)
 Router.put(
   '/:event_id',
   middleware.stripToken,
