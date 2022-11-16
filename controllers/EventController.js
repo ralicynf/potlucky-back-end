@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Event } = require('../models')
+const { Event, User, UserEventList } = require('../models')
 
 // insert controller functions here
 
@@ -16,7 +16,7 @@ const createEvent = async (req, res) => {
 const getEventById = async (req, res) => {
   try {
     const { event_id } = req.params
-    const event = await Event.findByPk(event_id) //.populate('table') if you need the tables linked later
+    const event = await Event.findByPk(event_id)
     res.send(event)
   } catch (error) {
     throw error
@@ -25,22 +25,8 @@ const getEventById = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
   try {
-    const events = await Event.findAll()
-    res.send(events)
-  } catch (error) {
-    throw error
-  }
-}
-
-const getEventByGuestId = async (req, res) => {
-  try {
-    //need to filter out where they are also the host
-    const user_id = req.params.user_id
     const events = await Event.findAll({
-      where: {
-        userId: { [Op.contains]: [user_id] },
-        hostId: { [Op.not]: user_id }
-      }
+      include: [{ model: User, through: UserEventList, as: 'attendees' }]
     })
     res.send(events)
   } catch (error) {
@@ -48,17 +34,34 @@ const getEventByGuestId = async (req, res) => {
   }
 }
 
-const getEventByHostId = async (req, res) => {
-  try {
-    const { host_id } = req.params
-    const events = await Event.findAll({
-      where: { hostId: host_id }
-    })
-    res.send(events)
-  } catch (error) {
-    throw error
-  }
-}
+// const getEventByGuestId = async (req, res) => {
+//   try {
+//     //need to filter out where they are also the host
+//     const user_id = req.params.user_id
+//     const events = await Event.findAll({
+//       include: [{ model: User, through: UserEventList, as: 'attendees' }],
+//       where: {
+//         userId: { [Op.contains]: [user_id] },
+//         hostId: { [Op.not]: user_id }
+//       }
+//     })
+//     res.send(events)
+//   } catch (error) {
+//     throw error
+//   }
+// }
+
+// const getEventByHostId = async (req, res) => {
+//   try {
+//     const { host_id } = req.params
+//     const events = await Event.findAll({
+//       where: { hostId: host_id }
+//     })
+//     res.send(events)
+//   } catch (error) {
+//     throw error
+//   }
+// }
 
 const updateEvent = async (req, res) => {
   try {
@@ -85,12 +88,27 @@ const deleteEvent = async (req, res) => {
   }
 }
 
+const addGuestsToEvent = async (req, res) => {
+  try {
+    const event = await Event.findByPk(req.params.event_id)
+    await event.addUsers([req.body.userId])
+    await event.save()
+    const response = await Event.findByPk(req.params.event_id, {
+      include: [{ model: User, through: UserEventList, as: 'attendees' }]
+    })
+    res.send(response)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   createEvent,
   getEventById,
   getAllEvents,
-  getEventByGuestId,
-  getEventByHostId,
+  // getEventByGuestId,
+  // getEventByHostId,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  addGuestsToEvent
 }

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Item, { as: 'items', foreignKey: 'userId' })
       User.hasMany(models.Event, { as: 'host', foreignKey: 'hostId' }) // HOST who created the event
       User.belongsToMany(models.Event, {
-        as: 'attendees',
+        as: 'events',
         through: models.UserEventList,
         foreignKey: 'userId'
       }) // All the events this one user is attending
@@ -29,9 +29,7 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-      passwordDigest: { type: DataTypes.STRING, allowNull: false },
-      hosting: DataTypes.ARRAY(DataTypes.INTEGER),
-      attending: DataTypes.ARRAY(DataTypes.INTEGER)
+      passwordDigest: { type: DataTypes.STRING, allowNull: false }
     },
     {
       sequelize,
