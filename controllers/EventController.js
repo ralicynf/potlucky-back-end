@@ -16,7 +16,21 @@ const createEvent = async (req, res) => {
 const getEventById = async (req, res) => {
   try {
     const { event_id } = req.params
-    const event = await Event.findByPk(event_id)
+    const event = await Event.findByPk(event_id, {
+      include: [
+        {
+          model: User,
+          as: 'hostedBy',
+          attributes: ['id', 'username', 'name', 'email']
+        },
+        {
+          model: User,
+          through: UserEventList,
+          as: 'attendees',
+          attributes: ['id', 'username', 'name', 'email']
+        }
+      ]
+    })
     res.send(event)
   } catch (error) {
     throw error
@@ -26,7 +40,19 @@ const getEventById = async (req, res) => {
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.findAll({
-      include: [{ model: User, through: UserEventList, as: 'attendees' }]
+      include: [
+        {
+          model: User,
+          as: 'hostedBy',
+          attributes: ['id', 'username', 'name', 'email']
+        },
+        {
+          model: User,
+          through: UserEventList,
+          as: 'attendees',
+          attributes: ['id', 'username', 'name', 'email']
+        }
+      ]
     })
     res.send(events)
   } catch (error) {
@@ -34,34 +60,30 @@ const getAllEvents = async (req, res) => {
   }
 }
 
-// const getEventByGuestId = async (req, res) => {
-//   try {
-//     //need to filter out where they are also the host
-//     const user_id = req.params.user_id
-//     const events = await Event.findAll({
-//       include: [{ model: User, through: UserEventList, as: 'attendees' }],
-//       where: {
-//         userId: { [Op.contains]: [user_id] },
-//         hostId: { [Op.not]: user_id }
-//       }
-//     })
-//     res.send(events)
-//   } catch (error) {
-//     throw error
-//   }
-// }
-
-// const getEventByHostId = async (req, res) => {
-//   try {
-//     const { host_id } = req.params
-//     const events = await Event.findAll({
-//       where: { hostId: host_id }
-//     })
-//     res.send(events)
-//   } catch (error) {
-//     throw error
-//   }
-// }
+const getEventByHostId = async (req, res) => {
+  try {
+    const { host_id } = req.params
+    const events = await Event.findAll({
+      where: { hostId: host_id },
+      include: [
+        {
+          model: User,
+          as: 'hostedBy',
+          attributes: ['id', 'username', 'name', 'email']
+        },
+        {
+          model: User,
+          through: UserEventList,
+          as: 'attendees',
+          attributes: ['id', 'username', 'name', 'email']
+        }
+      ]
+    })
+    res.send(events)
+  } catch (error) {
+    throw error
+  }
+}
 
 const updateEvent = async (req, res) => {
   try {
@@ -91,10 +113,18 @@ const deleteEvent = async (req, res) => {
 const addGuestsToEvent = async (req, res) => {
   try {
     const event = await Event.findByPk(req.params.event_id)
-    await event.addUsers([req.body.userId])
+    console.log(event)
+    await event.addAttendees([req.body.userId])
     await event.save()
     const response = await Event.findByPk(req.params.event_id, {
-      include: [{ model: User, through: UserEventList, as: 'attendees' }]
+      include: [
+        {
+          model: User,
+          through: UserEventList,
+          as: 'attendees',
+          attributes: ['id', 'username', 'name', 'email']
+        }
+      ]
     })
     res.send(response)
   } catch (error) {
@@ -106,8 +136,7 @@ module.exports = {
   createEvent,
   getEventById,
   getAllEvents,
-  // getEventByGuestId,
-  // getEventByHostId,
+  getEventByHostId,
   updateEvent,
   deleteEvent,
   addGuestsToEvent
