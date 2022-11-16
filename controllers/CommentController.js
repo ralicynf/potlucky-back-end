@@ -1,4 +1,5 @@
-const { Comment } = require('../models')
+const { Comment, User, Event } = require('../models')
+const usereventlist = require('../models/usereventlist')
 
 const createComment = async (req, res) => {
   try {
@@ -12,7 +13,20 @@ const createComment = async (req, res) => {
 
 const getAllComments = async (req, res) => {
   try {
-    const comments = await Comment.findAll()
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['username']
+        },
+        {
+          model: Event,
+          as: 'event',
+          attributes: ['eventName']
+        }
+      ]
+    })
     res.send(comments)
   } catch (error) {
     throw error
@@ -22,7 +36,14 @@ const getAllComments = async (req, res) => {
 const getCommentsByEvent = async (req, res) => {
   try {
     const comments = await Comment.findAll({
-      where: { eventId: req.params.event_id }
+      where: { eventId: req.params.event_id },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['username']
+        }
+      ]
     })
     res.send(comments)
   } catch (error) {
