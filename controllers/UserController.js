@@ -1,10 +1,18 @@
-const { User } = require('../models')
+const { User, Event, UserEventList } = require('../models')
 
 // insert controller functions here
 const getUserById = async (req, res) => {
   try {
     const { user_id } = req.params
-    const user = await User.findByPk(user_id) //.populate('table') if you need the tables linked later
+    const user = await User.findByPk(user_id, {
+      include: [
+        {
+          model: Event,
+          through: UserEventList,
+          as: 'events'
+        }
+      ]
+    })
     res.send(user)
   } catch (error) {
     throw error

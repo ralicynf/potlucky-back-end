@@ -11,7 +11,7 @@ Router.post(
   controller.createEvent
 )
 Router.get('/:event_id', controller.getEventById)
-Router.get('/user/:user_id', controller.getEventByGuestId)
+Router.get('/host/:host_id', controller.getEventByHostId)
 Router.put(
   '/:event_id',
   middleware.stripToken,
@@ -23,6 +23,12 @@ Router.delete(
   middleware.stripToken,
   middleware.verifyToken,
   controller.deleteEvent
+)
+Router.post(
+  '/:event_id/addUsers',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.addGuestsToEvent
 )
 
 module.exports = Router

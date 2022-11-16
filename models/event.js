@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsToMany(models.User, {
         as: 'attendees',
         through: models.UserEventList,
-        foreignKey: 'userId'
-      }) //
+        foreignKey: 'eventId'
+      })
     }
   }
   Event.init(
@@ -24,16 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.STRING,
-      userId: DataTypes.ARRAY({
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
-      }),
       hostId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
           model: 'users',
           key: 'id'
