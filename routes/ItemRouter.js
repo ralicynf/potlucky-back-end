@@ -6,8 +6,8 @@ const middleware = require('../middleware')
 Router.get('/', controller.getAllItems)
 Router.post(
   '/',
-  middleware.stripToken,
-  middleware.verifyToken,
+  // middleware.stripToken,
+  // middleware.verifyToken,
   controller.createItem
 )
 Router.get('/:item_id', controller.getItemById)
