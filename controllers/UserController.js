@@ -13,7 +13,7 @@ const getUserById = async (req, res) => {
           include: [
             {
               model: Item,
-              as: 'userItems',
+              as: 'items',
               attributes: ['itemName', 'userId', 'eventId']
             }
           ]
