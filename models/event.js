@@ -8,8 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Event.hasMany(models.Item, { as: 'items', foreignKey: 'eventId' })
-      Event.hasMany(models.Comment, { as: 'comments', foreignKey: 'eventId' })
+      Event.hasMany(models.Item, {
+        as: 'items',
+        foreignKey: 'eventId',
+        onDelete: 'CASCADE',
+        hooks: true
+      })
+      Event.hasMany(models.Comment, {
+        as: 'comments',
+        foreignKey: 'eventId',
+        onDelete: 'CASCADE',
+        hooks: true
+      })
       Event.belongsTo(models.User, { as: 'hostedBy', foreignKey: 'hostId' }) // HOST who created event (one user to many events)
       Event.belongsToMany(models.User, {
         as: 'attendees',
