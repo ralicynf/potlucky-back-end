@@ -1,4 +1,4 @@
-const { Item } = require('../models')
+const { Item, Event } = require('../models')
 
 // insert controller functions here
 const createItem = async (req, res) => {
@@ -16,6 +16,30 @@ const getItemById = async (req, res) => {
     const { item_id } = req.params
     const item = await Item.findByPk(item_id)
     res.send(item)
+  } catch (error) {
+    throw error
+  }
+}
+
+const getItemByEvent = async (req, res) => {
+  try {
+    const { event_id } = req.params
+    const items = await Item.findAll({
+      where: { eventId: event_id },
+      include: [
+        {
+          model: Event,
+          as: 'items',
+          attributes: ['eventName', 'date', 'location', 'description']
+        },
+        {
+          model: User,
+          as: 'userItems',
+          attributes: ['username', 'name', 'email']
+        }
+      ]
+    })
+    res.send(items)
   } catch (error) {
     throw error
   }
@@ -58,6 +82,7 @@ const deleteItem = async (req, res) => {
 module.exports = {
   createItem,
   getItemById,
+  getItemByEvent,
   getAllItems,
   updateItem,
   deleteItem
