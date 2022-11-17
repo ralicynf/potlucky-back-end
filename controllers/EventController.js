@@ -99,7 +99,7 @@ const updateEvent = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
   try {
-    const event = await Event.findOne({ where: { id: req.params.event_id } })
+    const event = await Event.findByPk(req.params.event_id)
     event.destroy()
     res.send({
       msg: 'Event Deleted',
