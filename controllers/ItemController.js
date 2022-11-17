@@ -25,19 +25,14 @@ const getItemByEvent = async (req, res) => {
   try {
     const { event_id } = req.params
     const items = await Item.findAll({
-      where: { eventId: event_id }
-      // include: [
-      //   {
-      //     model: Event,
-      //     as: 'items',
-      //     attributes: ['eventName', 'date', 'location', 'description']
-      //   },
-      //   {
-      //     model: User,
-      //     as: 'userItems',
-      //     attributes: ['username', 'name', 'email']
-      //   }
-      // ]
+      where: { eventId: event_id },
+      include: [
+        {
+          model: User,
+          as: 'userItems',
+          attributes: ['username', 'name', 'email']
+        }
+      ]
     })
     res.send(items)
   } catch (error) {
