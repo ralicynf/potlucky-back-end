@@ -21,6 +21,15 @@ const getItemById = async (req, res) => {
   }
 }
 
+// const getItemByUserAndEvent = async (req, res) => {
+//   try {
+//     const { user_id } = req.params
+//     const items
+//   } catch (error) {
+//     throw error
+//   }
+// }
+
 const getAllItems = async (req, res) => {
   try {
     const items = await Item.findAll()

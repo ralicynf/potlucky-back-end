@@ -1,4 +1,4 @@
-const { User, Event, UserEventList } = require('../models')
+const { User, Event, UserEventList, Item } = require('../models')
 
 // insert controller functions here
 const getUserById = async (req, res) => {
@@ -9,7 +9,10 @@ const getUserById = async (req, res) => {
         {
           model: Event,
           through: UserEventList,
-          as: 'events'
+          as: 'events',
+          include: [
+            { model: Item, attributes: ['itemName', 'userId', 'eventId'] }
+          ]
         }
       ]
     })
