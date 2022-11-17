@@ -103,8 +103,8 @@ const deleteEvent = async (req, res) => {
     const eventLists = await UserEventList.findAll({
       where: { eventId: event.id }
     })
-    eventLists.destroy()
-    event.destroy()
+    await eventLists.map((list) => list.destroy())
+    await event.destroy()
     res.send({
       msg: 'Event Deleted',
       payload: req.params.event_id,
