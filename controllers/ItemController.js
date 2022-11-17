@@ -29,8 +29,7 @@ const getItemByEvent = async (req, res) => {
       include: [
         {
           model: User,
-          as: 'userItems',
-          attributes: ['username', 'name', 'email']
+          as: 'userItems'
         }
       ]
     })
