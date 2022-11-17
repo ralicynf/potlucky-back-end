@@ -100,6 +100,10 @@ const updateEvent = async (req, res) => {
 const deleteEvent = async (req, res) => {
   try {
     const event = await Event.findByPk(req.params.event_id)
+    const eventLists = await UserEventList.findAll({
+      where: { eventId: event.id }
+    })
+    eventLists.destroy()
     event.destroy()
     res.send({
       msg: 'Event Deleted',
