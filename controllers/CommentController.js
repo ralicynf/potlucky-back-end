@@ -18,7 +18,7 @@ const getAllComments = async (req, res) => {
         {
           model: User,
           as: 'author',
-          attributes: ['username']
+          attributes: ['username', 'name', 'email']
         },
         {
           model: Event,
