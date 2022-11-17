@@ -14,7 +14,7 @@ const getUserById = async (req, res) => {
             {
               model: Item,
               as: 'items',
-              attributes: ['itemName', 'userId', 'eventId']
+              attributes: ['id', 'itemName', 'userId', 'eventId']
             }
           ]
         }
