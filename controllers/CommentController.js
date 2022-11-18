@@ -41,7 +41,7 @@ const getCommentsByEvent = async (req, res) => {
         {
           model: User,
           as: 'author',
-          attributes: ['username']
+          attributes: ['username', 'name']
         }
       ]
     })
